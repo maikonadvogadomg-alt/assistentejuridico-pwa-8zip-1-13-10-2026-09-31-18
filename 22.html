@@ -1,0 +1,934 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Links - Maikon Caldeira</title>
+    <style>
+        :root { 
+            --bg:#0a0a0f; 
+            --bg2:#12121a; 
+            --bg3:#1a1a2e; 
+            --text:#e2e8f0; 
+            --text2:#94a3b8; 
+            --accent:#a3a082; 
+            --accent2:#d4d0a8; 
+            --green:#4ade80; 
+            --blue:#60a5fa; 
+            --red:#f87171; 
+            --border:#2d2d3a; 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg2);
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--accent) 0%, #8b7f5f 100%);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--accent2);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text2);
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            background: var(--bg3);
+            color: var(--text);
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, #8b7f5f 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(163, 160, 130, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg3);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+            color: var(--accent2);
+        }
+
+        .btn-danger {
+            background: rgba(248, 113, 113, 0.2);
+            color: var(--red);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            flex: 0;
+        }
+
+        .btn-danger:hover {
+            background: rgba(248, 113, 113, 0.3);
+        }
+
+        .btn-backup {
+            background: var(--green);
+            color: #000;
+            flex: 1;
+        }
+
+        .btn-backup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(74, 222, 128, 0.4);
+        }
+
+        .links-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: var(--bg3);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            transition: all 0.3s;
+        }
+
+        .link-item:hover {
+            background: var(--border);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .link-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--accent);
+        }
+
+        .link-info {
+            flex: 1;
+        }
+
+        .link-name {
+            font-weight: 600;
+            color: var(--accent2);
+            margin-bottom: 3px;
+        }
+
+        .link-url {
+            font-size: 12px;
+            color: var(--text2);
+            word-break: break-all;
+        }
+
+        .link-item.checked .link-name {
+            color: var(--green);
+        }
+
+        .btn-remove {
+            background: rgba(248, 113, 113, 0.2);
+            color: var(--red);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .btn-remove:hover {
+            background: rgba(248, 113, 113, 0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text2);
+        }
+
+        .viewer-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .viewer-container.active {
+            display: flex;
+        }
+
+        .viewer-container.fullscreen {
+            padding: 0;
+            background: #000;
+        }
+
+        .viewer-box {
+            background: var(--bg2);
+            border-radius: 15px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+        }
+
+        .viewer-container.fullscreen .viewer-box {
+            border-radius: 0;
+            max-width: 100%;
+            max-height: 100vh;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .viewer-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #8b7f5f 100%);
+            color: white;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 15px 15px 0 0;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .viewer-container.fullscreen .viewer-header {
+            border-radius: 0;
+            padding: 10px 14px;
+        }
+
+        .viewer-header h2 {
+            font-size: 16px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .viewer-header-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .viewer-header button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .viewer-header button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .viewer-content {
+            flex: 1;
+            overflow: auto;
+            padding: 16px;
+        }
+
+        .viewer-container.fullscreen .viewer-content {
+            padding: 0;
+        }
+
+        .viewer-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .viewer-container.fullscreen .viewer-content iframe {
+            border-radius: 0;
+        }
+
+        .viewer-footer {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
+            background: var(--bg3);
+            border-radius: 0 0 15px 15px;
+        }
+
+        .viewer-container.fullscreen .viewer-footer {
+            border-radius: 0;
+            padding: 10px 14px;
+        }
+
+        .viewer-footer button {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .viewer-footer .btn-prev {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .viewer-footer .btn-prev:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .viewer-footer .btn-next {
+            background: linear-gradient(135deg, var(--accent) 0%, #8b7f5f 100%);
+            color: white;
+        }
+
+        .viewer-footer .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(163, 160, 130, 0.4);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--accent) 0%, #8b7f5f 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .backup-section {
+            background: var(--bg3);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .backup-section h3 {
+            color: var(--accent2);
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .backup-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .backup-buttons button {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .header {
+                padding: 20px 15px;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .viewer-header {
+                padding: 10px 12px;
+            }
+
+            .viewer-header h2 {
+                font-size: 14px;
+            }
+
+            .viewer-header button {
+                padding: 5px 8px;
+                font-size: 11px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔗 Gerenciador de Links</h1>
+            <p>Organize, marque e acesse seus links um de cada vez</p>
+        </div>
+
+        <div class="content">
+            <!-- ESTATÍSTICAS -->
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalLinks">0</div>
+                    <div class="stat-label">Total de Links</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="checkedLinks">0</div>
+                    <div class="stat-label">Marcados</div>
+                </div>
+            </div>
+
+            <!-- ADICIONAR LINK -->
+            <div class="section">
+                <div class="section-title">➕ Adicionar Novo Link</div>
+                <div class="form-group">
+                    <label for="linkName">Nome do Link</label>
+                    <input type="text" id="linkName" placeholder="Ex: Playground, Chat IA, etc">
+                </div>
+                <div class="form-group">
+                    <label for="linkUrl">URL</label>
+                    <input type="text" id="linkUrl" placeholder="Ex: https://exemplo.com">
+                </div>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="adicionarLink()">💾 Salvar Link</button>
+                    <button class="btn-secondary" onclick="limparFormulario()">🔄 Limpar</button>
+                </div>
+            </div>
+
+            <!-- BACKUP DE LINKS -->
+            <div class="backup-section">
+                <h3>💾 Backup de Links</h3>
+                <p style="font-size: 12px; color: var(--text2); margin-bottom: 12px;">
+                    Baixe seus links em um arquivo HTML acessível que pode ser aberto em qualquer navegador e computador.
+                </p>
+                <div class="backup-buttons">
+                    <button class="btn-backup" onclick="exportarBackupHTML()">📥 Baixar Backup HTML</button>
+                    <button class="btn-backup" onclick="importarBackupHTML()">📤 Importar Backup</button>
+                </div>
+            </div>
+
+            <!-- LISTA DE LINKS -->
+            <div class="section">
+                <div class="section-title">📋 Seus Links</div>
+                <div id="linksList" class="links-list">
+                    <div class="empty-state">
+                        <p>Nenhum link adicionado ainda</p>
+                        <p style="font-size: 12px; margin-top: 10px;">Adicione um link acima para começar!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AÇÕES -->
+            <div class="section">
+                <div class="button-group">
+                    <button class="btn-primary" onclick="abrirSelecionados()">🚀 Abrir Selecionados</button>
+                    <button class="btn-secondary" onclick="marcarTodos()">✅ Marcar Todos</button>
+                    <button class="btn-secondary" onclick="desmarcarTodos()">⬜ Desmarcar Todos</button>
+                    <button class="btn-danger" onclick="limparTudo()">🗑️ Limpar Tudo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VISUALIZADOR -->
+    <div class="viewer-container" id="viewerContainer">
+        <div class="viewer-box">
+            <div class="viewer-header">
+                <h2 id="viewerTitle">Carregando...</h2>
+                <div class="viewer-header-buttons">
+                    <button onclick="alternarTelaCheia()">⛶ Tela Cheia</button>
+                    <button onclick="fecharVisualizador()">✕ Fechar</button>
+                </div>
+            </div>
+            <div class="viewer-content">
+                <iframe id="viewerIframe" src=""></iframe>
+            </div>
+            <div class="viewer-footer">
+                <button class="btn-prev" onclick="linkAnterior()">← Anterior</button>
+                <button class="btn-next" onclick="proximoLink()">Próximo →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- INPUT HIDDEN PARA IMPORTAR -->
+    <input type="file" id="backupInput" style="display:none" accept=".html" />
+
+    <script>
+        // FUNÇÃO AUXILIAR - ESCAPAR HTML
+        function escHtml(s) { 
+            return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); 
+        }
+
+        // VARIÁVEIS GLOBAIS
+        let links = [];
+        let indiceAtual = 0;
+        let telaCheia = false;
+
+        // CARREGAR DADOS
+        function carregarDados() {
+            const dados = localStorage.getItem('gerenciadorLinks');
+            if (dados) {
+                links = JSON.parse(dados);
+            }
+            atualizarLista();
+        }
+
+        // SALVAR DADOS
+        function salvarDados() {
+            localStorage.setItem('gerenciadorLinks', JSON.stringify(links));
+        }
+
+        // ADICIONAR LINK
+        function adicionarLink() {
+            const nome = document.getElementById('linkName').value.trim();
+            const url = document.getElementById('linkUrl').value.trim();
+
+            if (!nome || !url) {
+                alert('⚠️ Preencha nome e URL!');
+                return;
+            }
+
+            // Validar URL
+            try {
+                new URL(url);
+            } catch (e) {
+                alert('⚠️ URL inválida! Comece com http:// ou https://');
+                return;
+            }
+
+            links.push({
+                id: Date.now(),
+                nome: nome,
+                url: url,
+                checked: false
+            });
+
+            salvarDados();
+            limparFormulario();
+            atualizarLista();
+        }
+
+        // LIMPAR FORMULÁRIO
+        function limparFormulario() {
+            document.getElementById('linkName').value = '';
+            document.getElementById('linkUrl').value = '';
+            document.getElementById('linkName').focus();
+        }
+
+        // ATUALIZAR LISTA
+        function atualizarLista() {
+            const lista = document.getElementById('linksList');
+
+            if (links.length === 0) {
+                lista.innerHTML = `
+                    <div class="empty-state">
+                        <p>Nenhum link adicionado ainda</p>
+                        <p style="font-size: 12px; margin-top: 10px;">Adicione um link acima para começar!</p>
+                    </div>
+                `;
+                atualizarEstatisticas();
+                return;
+            }
+
+            lista.innerHTML = links.map(link => `
+                <div class="link-item ${link.checked ? 'checked' : ''}">
+                    <input type="checkbox" ${link.checked ? 'checked' : ''} onchange="alternarLink(${link.id})">
+                    <div class="link-info">
+                        <div class="link-name">${escHtml(link.nome)}</div>
+                        <div class="link-url">${escHtml(link.url)}</div>
+                    </div>
+                    <button class="btn-remove" onclick="removerLink(${link.id})">Remover</button>
+                </div>
+            `).join('');
+
+            atualizarEstatisticas();
+        }
+
+        // ALTERNAR LINK
+        function alternarLink(id) {
+            const link = links.find(l => l.id === id);
+            if (link) {
+                link.checked = !link.checked;
+                salvarDados();
+                atualizarLista();
+            }
+        }
+
+        // REMOVER LINK
+        function removerLink(id) {
+            if (confirm('Tem certeza que quer remover este link?')) {
+                links = links.filter(l => l.id !== id);
+                salvarDados();
+                atualizarLista();
+            }
+        }
+
+        // MARCAR TODOS
+        function marcarTodos() {
+            links.forEach(link => link.checked = true);
+            salvarDados();
+            atualizarLista();
+        }
+
+        // DESMARCAR TODOS
+        function desmarcarTodos() {
+            links.forEach(link => link.checked = false);
+            salvarDados();
+            atualizarLista();
+        }
+
+        // LIMPAR TUDO
+        function limparTudo() {
+            if (confirm('⚠️ Tem certeza? Isso vai deletar TODOS os links!')) {
+                links = [];
+                salvarDados();
+                atualizarLista();
+            }
+        }
+
+        // ATUALIZAR ESTATÍSTICAS
+        function atualizarEstatisticas() {
+            document.getElementById('totalLinks').textContent = links.length;
+            document.getElementById('checkedLinks').textContent = links.filter(l => l.checked).length;
+        }
+
+        // ABRIR SELECIONADOS
+        function abrirSelecionados() {
+            const selecionados = links.filter(l => l.checked);
+
+            if (selecionados.length === 0) {
+                alert('⚠️ Marque pelo menos um link!');
+                return;
+            }
+
+            indiceAtual = 0;
+            telaCheia = false;
+            abrirVisualizador();
+        }
+
+        // ABRIR VISUALIZADOR
+        function abrirVisualizador() {
+            const selecionados = links.filter(l => l.checked);
+
+            if (selecionados.length === 0) return;
+
+            const linkAtual = selecionados[indiceAtual];
+            document.getElementById('viewerTitle').textContent = `${indiceAtual + 1}/${selecionados.length} - ${linkAtual.nome}`;
+            document.getElementById('viewerIframe').src = linkAtual.url;
+            document.getElementById('viewerContainer').classList.add('active');
+        }
+
+        // ALTERNAR TELA CHEIA
+        function alternarTelaCheia() {
+            telaCheia = !telaCheia;
+            const container = document.getElementById('viewerContainer');
+            
+            if (telaCheia) {
+                container.classList.add('fullscreen');
+            } else {
+                container.classList.remove('fullscreen');
+            }
+        }
+
+        // PRÓXIMO LINK
+        function proximoLink() {
+            const selecionados = links.filter(l => l.checked);
+            indiceAtual = (indiceAtual + 1) % selecionados.length;
+            abrirVisualizador();
+        }
+
+        // LINK ANTERIOR
+        function linkAnterior() {
+            const selecionados = links.filter(l => l.checked);
+            indiceAtual = (indiceAtual - 1 + selecionados.length) % selecionados.length;
+            abrirVisualizador();
+        }
+
+        // FECHAR VISUALIZADOR
+        function fecharVisualizador() {
+            document.getElementById('viewerContainer').classList.remove('active');
+            telaCheia = false;
+        }
+
+        // ========== BACKUP HTML ==========
+        function exportarBackupHTML() {
+            if (links.length === 0) {
+                alert('⚠️ Nenhum link para fazer backup!');
+                return;
+            }
+
+            const htmlBackup = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📋 Backup de Links - Maikon Caldeira</title>
+    <style>
+        :root { 
+            --bg:#0a0a0f; 
+            --bg2:#12121a; 
+            --bg3:#1a1a2e; 
+            --text:#e2e8f0; 
+            --text2:#94a3b8; 
+            --accent:#a3a082; 
+            --accent2:#d4d0a8; 
+            --green:#4ade80; 
+            --red:#f87171; 
+            --border:#2d2d3a; 
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { background: linear-gradient(135deg, var(--accent) 0%, #8b7f5f 100%); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
+        .header h1 { font-size: 28px; margin-bottom: 10px; }
+        .header p { font-size: 14px; opacity: 0.9; }
+        .info-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+        .info-box p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+        .links-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+        .link-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 16px; border-left: 4px solid var(--accent); }
+        .link-card h3 { color: var(--accent2); margin-bottom: 8px; font-size: 16px; }
+        .link-card a { display: inline-block; color: var(--green); text-decoration: none; word-break: break-all; font-size: 12px; padding: 8px; background: var(--bg3); border-radius: 4px; margin-top: 8px; width: 100%; text-align: center; transition: all 0.3s; }
+        .link-card a:hover { background: var(--accent); color: #000; }
+        .copy-btn { display: inline-block; background: var(--accent); color: #000; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; margin-top: 8px; border: none; transition: all 0.3s; }
+        .copy-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(163, 160, 130, 0.4); }
+        .footer { text-align: center; margin-top: 40px; padding: 20px; border-top: 1px solid var(--border); color: var(--text2); font-size: 12px; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .stat { background: var(--bg2); border: 1px solid var(--border); padding: 16px; border-radius: 8px; text-align: center; }
+        .stat-number { font-size: 24px; font-weight: bold; color: var(--accent2); }
+        .stat-label { font-size: 12px; color: var(--text2); margin-top: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Backup de Links</h1>
+            <p>Maikon Caldeira - Gerenciador de Links</p>
+        </div>
+
+        <div class="info-box">
+            <p>
+                <strong>💡 Como usar:</strong> Este arquivo contém todos os seus links salvos. 
+                Você pode abrir este arquivo em qualquer navegador e em qualquer computador. 
+                Para restaurar os links, copie o JSON abaixo e importe no gerenciador.
+            </p>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">${links.length}</div>
+                <div class="stat-label">Total de Links</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">${new Date().toLocaleDateString('pt-BR')}</div>
+                <div class="stat-label">Data do Backup</div>
+            </div>
+        </div>
+
+        <div class="links-container">
+            ${links.map(link => `
+                <div class="link-card">
+                    <h3>🔗 ${escHtml(link.nome)}</h3>
+                    <a href="${escHtml(link.url)}" target="_blank">Abrir Link</a>
+                    <button class="copy-btn" onclick="copiarLink('${escHtml(link.url).replace(/'/g, "\\'")}')">📋 Copiar URL</button>
+                </div>
+            `).join('')}
+        </div>
+
+        <div class="info-box" style="margin-top: 30px;">
+            <p><strong>📦 JSON para Importar (copie tudo abaixo):</strong></p>
+            <textarea style="width: 100%; height: 200px; background: var(--bg); color: var(--green); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: monospace; font-size: 11px; margin-top: 12px; resize: vertical;" readonly onclick="this.select()">${JSON.stringify(links, null, 2)}</textarea>
+            <button class="copy-btn" style="width: 100%; margin-top: 12px;" onclick="copiarJSON()">📋 Copiar JSON Completo</button>
+        </div>
+
+        <div class="footer">
+            <p>✨ Backup criado em ${new Date().toLocaleString('pt-BR')}</p>
+            <p>Mantenha este arquivo em um local seguro para recuperar seus links quando necessário.</p>
+        </div>
+    </div>
+
+    <script>
+        function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+        
+        function copiarLink(url) {
+            navigator.clipboard.writeText(url);
+            alert('✅ URL copiada!');
+        }
+
+        function copiarJSON() {
+            const json = document.querySelector('textarea').value;
+            navigator.clipboard.writeText(json);
+            alert('✅ JSON copiado! Você pode importar em outro navegador/computador.');
+        }
+    </script>
+</body>
+</html>`;
+
+            const blob = new Blob([htmlBackup], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'backup-links-' + new Date().toISOString().slice(0, 10) + '.html';
+            a.click();
+            URL.revokeObjectURL(url);
+            alert('✅ Backup HTML baixado! Abra em qualquer navegador para acessar e copiar seus links.');
+        }
+
+        function importarBackupHTML() {
+            document.getElementById('backupInput').click();
+        }
+
+        document.getElementById('backupInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                try {
+                    const html = ev.target.result;
+                    const match = html.match(/\[\s*\{[\s\S]*?\}\s*\]/);
+                    
+                    if (match) {
+                        const importedLinks = JSON.parse(match[0]);
+                        
+                        if (confirm('Importar ' + importedLinks.length + ' links? Os links existentes serão mantidos.')) {
+                            links = [...links, ...importedLinks];
+                            salvarDados();
+                            atualizarLista();
+                            alert('✅ ' + importedLinks.length + ' links importados com sucesso!');
+                        }
+                    } else {
+                        alert('❌ Arquivo de backup inválido!');
+                    }
+                } catch (err) {
+                    alert('❌ Erro ao importar: ' + err.message);
+                }
+            };
+            reader.readAsText(file);
+            e.target.value = '';
+        });
+
+        // INICIALIZAR
+        carregarDados();
+    </script>
+</body>
+</html>
