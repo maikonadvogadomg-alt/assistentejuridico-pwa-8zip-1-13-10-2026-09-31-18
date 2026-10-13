@@ -1,7 +1,7 @@
-// service-worker.js — gerado pelo Mini SK em 13/10/2026, 09:33:23
+// service-worker.js — gerado pelo Mini SK em 13/10/2026, 09:43:26
 // Não precisa mexer: ele guarda sozinho o que o app usa.
-const PREFIXO = 'sk-maikon-caldeira-advocacia-digi-';
-const CACHE = PREFIXO + 'mv6nwf2r';
+const PREFIXO = 'sk-assistentejuridicopwa8zip11310-';
+const CACHE = PREFIXO + 'mv6o9cuz';
 // Lista feita automaticamente (para funcionar sem internet logo após instalar)
 const GUARDAR = [
   "./",
@@ -104,6 +104,18 @@ const GUARDAR = [
   "./98.html",
   "./99.html",
   "./100.html",
+  "./android/app/build.gradle",
+  "./android/app/src/main/AndroidManifest.xml",
+  "./android/app/src/main/assets/__ponte.js",
+  "./android/app/src/main/java/app/minisk/shell/MainActivity.java",
+  "./android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+  "./android/app/src/main/res/xml/rede.xml",
+  "./android/build.gradle",
+  "./android/gradle.properties",
+  "./android/settings.gradle",
+  "./apk.config.json",
+  "./electron/main.cjs",
+  "./electron/preload.cjs",
   "./favicon.ico",
   "./icons/apple-touch-icon.png",
   "./icons/icon-16.png",
@@ -123,7 +135,9 @@ const GUARDAR = [
   "./icons/maskable-512.png",
   "./icons/maskable.svg",
   "./index.html",
-  "./manifest.json"
+  "./manifest.json",
+  "./package.json",
+  "./PLANO.md"
 ];
 
 self.addEventListener('install', (e) => {
