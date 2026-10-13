@@ -1,6 +1,6 @@
 # 📋 Plano do projeto: AssistenteJuridico-PWA-8zip (1) 13-10-2026, 09-31-18
 
-_Gerado em 13/10/2026, 09:43:27 — sem IA, lendo os arquivos._
+_Gerado em 13/10/2026, 09:54:18 — sem IA, lendo os arquivos._
 
 ## 📊 Visão geral
 | Item | Valor |
@@ -31,10 +31,10 @@ _Gerado em 13/10/2026, 09:43:27 — sem IA, lendo os arquivos._
 ## 📱 Telas e páginas
 | Endereço | Arquivo |
 |---|---|
-| `1.html` | 1.html |
-| `2.html` | 2.html |
-| `3.html` | 3.html |
-| `4.html` | 4.html |
+| `1.codigo.html` | 1.codigo.html |
+| `2.codigo.html` | 2.codigo.html |
+| `3.codigo.html` | 3.codigo.html |
+| `4.codigo.html` | 4.codigo.html |
 | `5.html` | 5.html |
 | `6.html` | 6.html |
 | `7.html` | 7.html |
@@ -184,7 +184,7 @@ _Nenhuma._
 │  ├─ maskable-512.png
 │  └─ maskable.svg
 ├─ .gitignore
-├─ 1.html
+├─ 1.codigo.html
 ├─ 10.html
 ├─ 100.html
 ├─ 11.html
@@ -195,7 +195,7 @@ _Nenhuma._
 ├─ 17.html
 ├─ 18.html
 ├─ 19.html
-├─ 2.html
+├─ 2.codigo.html
 ├─ 20.html
 ├─ 21.html
 ├─ 22.html
@@ -206,7 +206,7 @@ _Nenhuma._
 ├─ 27.html
 ├─ 28.html
 ├─ 29.html
-├─ 3.html
+├─ 3.codigo.html
 ├─ 30.html
 ├─ 31.html
 ├─ 32.html
@@ -217,7 +217,7 @@ _Nenhuma._
 ├─ 37.html
 ├─ 38.html
 ├─ 39.html
-├─ 4.html
+├─ 4.codigo.html
 ├─ 40.html
 ├─ 41.html
 ├─ 42.html
